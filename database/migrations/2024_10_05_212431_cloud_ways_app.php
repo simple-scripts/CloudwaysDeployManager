@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('cloudways_apps', function (Blueprint $table) {
+        Schema::create('cloudways_apps', function (Blueprint $table) {
             $table->id()->comment('The ID as defined for this Cloudways App in Cloudways');
             $table->string('short_code')->nullable()->comment('Easy to remember short code to select app for command line calls')->unique();
             $table->foreignId('cloudways_server_id')->comment('Numeric id of the Cloudways server and FK = cloudways_servers.id');
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('git_branch')->nullable()->comment('Cloudways application git branch that will be used for deployment');
             $table->string('deploy_path')->nullable()->comment('Directory where the repo will be deployed. Leave the field empty for deploying in the standard public_html folder');
 
+            $table->timestamps();
             $table->index(['type', 'group'], 'idx_cw_app_search');
         });
     }

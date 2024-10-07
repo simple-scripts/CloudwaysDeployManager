@@ -11,6 +11,28 @@ store your Cloudways Server and App credentials.
 - [cw:manager:import](#server-credentials) Import CloudServers from database/JSON/servers.json file
 - [cw:manager:ssh](#ssh-keys) Upload SSH Key as defined in the .env
 
+
+## Installation
+
+You can install the package via composer:
+
+```bash
+composer require simple-scripts/cloudways-deploy-manager
+```
+
+You can publish and run the migrations with:
+
+```bash
+php artisan vendor:publish --tag="clouddeploymanager-migrations"
+php artisan migrate
+```
+
+You can publish the config file with:
+
+```bash
+php artisan vendor:publish --tag="clouddeploymanager-config"
+```
+
 ## ENV
 
 Add to your .env:

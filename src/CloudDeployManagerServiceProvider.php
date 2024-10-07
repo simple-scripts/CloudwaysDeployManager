@@ -36,9 +36,11 @@ class CloudDeployManagerServiceProvider extends PackageServiceProvider
         $package
             ->name('clouddeploymanager')
             ->hasConfigFile('cw-deploy-manager')
-            ->hasCommands($this->commands);
-
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+            ->hasCommands($this->commands)
+            ->hasMigrations([
+                '2024_10_05_212420_cloud_ways_server',
+                '2024_10_05_212431_cloud_ways_app',
+            ]);
     }
 
     /**

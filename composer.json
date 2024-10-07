@@ -1,10 +1,9 @@
 {
-    "name": "simple-scripts/clouddeploymanager",
-    "description": "CloudDeployManager",
+    "name": "simple-scripts/cloudways-deploy-manager",
+    "description": "Cloudways Deploy Manager",
     "keywords": [
-        "simple-scripts",
         "laravel",
-        "clouddeploymanager"
+        "cloudways deploy manager"
     ],
     "homepage": "https://github.com/simple-scripts/clouddeploymanager",
     "license": "MIT",
