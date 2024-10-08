@@ -24,7 +24,7 @@ class LaravelDeploy extends Command
         {--s|short_codes= : Limit to a comma seperated list of App\Models\CloudApp short codes to run }
         {--i|ids= : Limit to a comma seperated list of App\Models\CloudApp IDs to run }
         {--b|branch= : git branch to pull from, defaults to what is in the DB }
-        {--c|cache=0 : Build the cache after steps, 1 or 0 }';
+        {--c|cache=1 : Build the cache after steps, 1 or 0 }';
 
     /**
      * The console command description.
@@ -59,6 +59,7 @@ class LaravelDeploy extends Command
 
             // 1. clear existing cache for config, routes and views:
             $remoteSsh = new RemoteSSH($cloudwaysApp);
+            $remoteSsh->setOutput($this->getOutput());
             $process_or_string = $remoteSsh
                 ->cdToApplication()
                 ->laravelArtisanClear()
@@ -76,13 +77,14 @@ class LaravelDeploy extends Command
             // 4. run migrations
             $remoteSsh = new RemoteSSH($cloudwaysApp);
             $remoteSsh
+                ->setOutput($this->getOutput())
                 ->cdToApplication()
                 ->composerInstallNoDev()
                 ->laravelArtisanMigrate();
 
             CloudwaysDeployLaravelPrependRemoteSsh::dispatch($cloudwaysApp, $remoteSsh);
 
-            // 6. build cache for config, routes and views:
+            // 5. build cache for config, routes and views:
             if ($cache) {
                 $remoteSsh->laravelArtisanCache();
             } else {

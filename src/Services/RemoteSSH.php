@@ -2,6 +2,7 @@
 
 namespace SimpleScripts\CloudDeployManager\Services;
 
+use Illuminate\Console\OutputStyle;
 use SimpleScripts\CloudDeployManager\Models\CloudwaysApp;
 use SimpleScripts\CloudDeployManager\Ssh\PlinkOrProcessSsh;
 use Spatie\Ssh\Ssh;
@@ -11,6 +12,8 @@ class RemoteSSH
     protected array $commands = [];
 
     protected CloudwaysApp $cloudwaysApp;
+
+    protected ?OutputStyle $output = null;
 
     protected Ssh $ssh_connection;
 
@@ -76,7 +79,12 @@ class RemoteSSH
 
     public function runCommands()
     {
-        // print_r($this->commands);
+        if ($this->output) {
+            $this->output->text("Starting remote terminal commands:");
+            foreach ($this->commands as $command) {
+                $this->output->text('  ' . $command);
+            }
+        }
         $ssh = $this->loadSsh();
 
         if ($ssh->isPlink()) {
@@ -117,5 +125,12 @@ class RemoteSSH
             });
 
         return $ssh;
+    }
+
+    public function setOutput(OutputStyle $output)
+    {
+        $this->output = $output;
+
+        return $this;
     }
 }

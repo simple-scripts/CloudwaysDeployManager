@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use SimpleScripts\CloudDeployManager\Console\Commands\CloudwaysComposerAuthCommand;
 use SimpleScripts\CloudDeployManager\Console\Commands\CloudwaysExport;
 use SimpleScripts\CloudDeployManager\Console\Commands\CloudwaysImport;
+use SimpleScripts\CloudDeployManager\Console\Commands\CloudwaysListCommand;
 use SimpleScripts\CloudDeployManager\Console\Commands\CloudwaysUploadSsh;
 use SimpleScripts\CloudDeployManager\Console\Commands\LaravelDeploy;
 use Spatie\LaravelPackageTools\Package;
@@ -22,6 +23,7 @@ class CloudDeployManagerServiceProvider extends PackageServiceProvider
         CloudwaysComposerAuthCommand::class,
         CloudwaysExport::class,
         CloudwaysImport::class,
+        CloudwaysListCommand::class,
         CloudwaysUploadSsh::class,
         LaravelDeploy::class,
     ];

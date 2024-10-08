@@ -62,11 +62,15 @@ trait CloudwaysDeployGitTrait
         return $this->getCloudAppCollection($this->group, $this->type, $this->ids, $this->short_codes);
     }
 
-    public function getCloudAppCollection(string $group, string $type = 'dev', array $ids = [], array $short_codes = []): Collection
+    public function getCloudAppCollection(?string $group, ?string $type = 'dev', array $ids = [], array $short_codes = []): Collection
     {
-        $this->output->comment('Begin command for '.(count($ids) ? implode(',', $ids).' ids' : ' all').' in '.$group.' group with type '.$type);
-
         $group = $this->getGroupName($group);
+
+        $this->output->text('Limit CloudwaysApp'.(count($ids) ? ' with IDs: ' . implode(',', $ids).' ids' : '').
+            (!empty($group) ? ' in '.$group.' group' : '' ) .
+            (!empty($type) ? ' with type '.$type : '') .
+            (count($short_codes) ? ' with a short code '. implode(',', $short_codes) : '')
+        );
 
         /** @var \Illuminate\Database\Eloquent\Builder $builder */
         $builder = CloudwaysApp::query();
@@ -84,6 +88,12 @@ trait CloudwaysDeployGitTrait
         if (count($ids)) {
             $builder->whereIn('id', $ids);
         }
+
+        $builder
+            ->orderBy('group')
+            ->orderBy('type')
+            ->orderBy('name')
+            ->orderBy('short_code');
 
         return $builder->get();
     }

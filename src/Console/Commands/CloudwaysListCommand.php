@@ -1,0 +1,59 @@
+<?php
+
+namespace SimpleScripts\CloudDeployManager\Console\Commands;
+
+use Illuminate\Console\Command;
+use SebastianBergmann\CodeCoverage\Report\Xml\Project;
+use SimpleScripts\CloudDeployManager\Models\CloudwaysApp;
+
+class CloudwaysListCommand extends Command
+{
+    use CloudwaysDeployGitTrait;
+
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'cw:manager:list
+        {--g|group= : As defined in the CloudApp->group column }
+        {--t|type= : local, dev, stage or prod }
+        {--s|short_codes= : Limit to a comma seperated list of App\Models\CloudApp short codes to run }
+        {--i|ids= : Limit to a comma seperated list of App\Models\CloudApp IDs to run }
+        {--new=0 : Add new SSH Key to existing Cloudways App Credential account }';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'List all Cloudways Apps and servers';
+
+    /**
+     * Execute the console command.
+     */
+    public function handle()
+    {
+        $headers = ['Group', 'Type', 'Short Code', 'Name', 'App ID', 'Server', 'Server ID'];
+        $rows = [];
+
+
+        $appCollection = $this->getCloudwaysAppCollectionFromCliInput();
+
+        /** @var CloudwaysApp $cloudwaysApp */
+        foreach ($appCollection as $cloudwaysApp) {
+            $rows[] = [
+                'Group' => $cloudwaysApp->group,
+                'Type' => $cloudwaysApp->type,
+                'Short Code' => $cloudwaysApp->short_code,
+                'Name' => $cloudwaysApp->name,
+                'App ID' => $cloudwaysApp->id,
+                'Server' => $cloudwaysApp->server->name,
+                'Server ID' => $cloudwaysApp->server->id,
+            ];
+        }
+
+        $this->comment( '** Cloudways Apps **');
+        $this->output->table($headers, $rows);
+    }
+}
