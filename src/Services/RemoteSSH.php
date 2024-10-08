@@ -115,7 +115,7 @@ class RemoteSSH
         $key = 'cw-deploy-manager.ssh.private_key_path';
         if (! $force_raw_key && $ssh->isPlink()) {
             // didn't get the key to work with scp
-            //$key = 'sshkey.private_ppk_key_path';
+            //$key = 'cw-deploy-manager.ssh.private_ppk_key_path';
         }
         $ssh
             ->setCloudwaysApp($this->cloudwaysApp)

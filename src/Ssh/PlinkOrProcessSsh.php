@@ -48,7 +48,7 @@ class PlinkOrProcessSsh extends Ssh
          */
         $file_name = $this->cloudwaysApp->server->id.'-'.$this->cloudwaysApp->cloudways_server_id.'-app-id-'.$this->cloudwaysApp->id.'.txt';
 
-        if ((bool) config('sshkey.use_temp')) {
+        if ((bool) config('cw-deploy-manager.ssh.use_temp')) {
             $path = 'C:'.DIRECTORY_SEPARATOR.'Temp'.DIRECTORY_SEPARATOR.$file_name;
             $handle = fopen($path, 'wb');
             fwrite($handle, $commandString);
