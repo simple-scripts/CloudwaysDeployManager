@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id The ID as defined for this Cloudways App in Cloudways
- * @property int cloudways_server_id - Numeric id of the Cloudways server and FK = cloudways_servers.id
+ * @property int $cloudways_server_id - Numeric id of the Cloudways server and FK = cloudways_servers.id
  * @property string $short_code - Easy to remember short code to select app for command line calls - unique
  * @property string $type - local, dev, stage or prod
  * @property string group - A way to group your apps together ex: marketing-sites
@@ -33,6 +33,6 @@ class CloudwaysApp extends Model
      */
     public function server(): BelongsTo
     {
-        return $this->belongsTo(CloudwaysServer::class);
+        return $this->belongsTo(CloudwaysServer::class, 'cloudways_server_id');
     }
 }

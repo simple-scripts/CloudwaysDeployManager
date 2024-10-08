@@ -85,7 +85,7 @@ trait CloudwaysDeployGitTrait
             $builder->whereIn('id', $ids);
         }
 
-        return $builder->get()->all();
+        return $builder->get();
     }
 
     /**

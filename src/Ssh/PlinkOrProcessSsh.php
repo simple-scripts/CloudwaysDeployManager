@@ -20,7 +20,7 @@ class PlinkOrProcessSsh extends Ssh
 
     public function isPlink(): bool
     {
-        return (bool) config('sshkey.use_plink');
+        return (bool) config('cw-deploy-manager.ssh.use_plink');
     }
 
     public function buildPlinkExecuteCommand($command, bool $include_batch = true): string
