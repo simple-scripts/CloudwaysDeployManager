@@ -80,9 +80,9 @@ class RemoteSSH
     public function runCommands()
     {
         if ($this->output) {
-            $this->output->text("Starting remote terminal commands:");
+            $this->output->text('Starting remote terminal commands:');
             foreach ($this->commands as $command) {
-                $this->output->text('  ' . $command);
+                $this->output->text('  '.$command);
             }
         }
         $ssh = $this->loadSsh();
