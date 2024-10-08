@@ -3,7 +3,6 @@
 namespace SimpleScripts\CloudDeployManager\Console\Commands;
 
 use Illuminate\Console\Command;
-use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 use SimpleScripts\CloudDeployManager\Models\CloudwaysApp;
 
 class CloudwaysListCommand extends Command
@@ -37,7 +36,6 @@ class CloudwaysListCommand extends Command
         $headers = ['Group', 'Type', 'Short Code', 'Name', 'App ID', 'Server', 'Server ID'];
         $rows = [];
 
-
         $appCollection = $this->getCloudwaysAppCollectionFromCliInput();
 
         /** @var CloudwaysApp $cloudwaysApp */
@@ -53,7 +51,7 @@ class CloudwaysListCommand extends Command
             ];
         }
 
-        $this->comment( '** Cloudways Apps **');
+        $this->comment('** Cloudways Apps **');
         $this->output->table($headers, $rows);
     }
 }

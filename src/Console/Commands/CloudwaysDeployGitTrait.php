@@ -66,10 +66,10 @@ trait CloudwaysDeployGitTrait
     {
         $group = $this->getGroupName($group);
 
-        $this->output->text('Limit CloudwaysApp'.(count($ids) ? ' with IDs: ' . implode(',', $ids).' ids' : '').
-            (!empty($group) ? ' in '.$group.' group' : '' ) .
-            (!empty($type) ? ' with type '.$type : '') .
-            (count($short_codes) ? ' with a short code '. implode(',', $short_codes) : '')
+        $this->output->text('Limit CloudwaysApp'.(count($ids) ? ' with IDs: '.implode(',', $ids).' ids' : '').
+            (! empty($group) ? ' in '.$group.' group' : '').
+            (! empty($type) ? ' with type '.$type : '').
+            (count($short_codes) ? ' with a short code '.implode(',', $short_codes) : '')
         );
 
         /** @var \Illuminate\Database\Eloquent\Builder $builder */
