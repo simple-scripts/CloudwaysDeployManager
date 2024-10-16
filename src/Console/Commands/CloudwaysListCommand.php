@@ -19,7 +19,7 @@ class CloudwaysListCommand extends Command
         {--t|type= : local, dev, stage or prod }
         {--s|short_codes= : Limit to a comma seperated list of App\Models\CloudApp short codes to run }
         {--i|ids= : Limit to a comma seperated list of App\Models\CloudApp IDs to run }
-        {--new=0 : Add new SSH Key to existing Cloudways App Credential account }';
+        {--c|columns=url : Columns to show, server or url }';
 
     /**
      * The console command description.
@@ -33,22 +33,45 @@ class CloudwaysListCommand extends Command
      */
     public function handle()
     {
-        $headers = ['Group', 'Type', 'Short Code', 'Name', 'App ID', 'Server', 'Server ID'];
+        $columns = strtolower($this->option('columns'));
+        $headers = ['Group', 'Type', 'Short Code', 'Name', 'App ID'];
+
+        switch($columns) {
+            case 'server':
+                $headers = array_merge($headers, ['Server', 'Server ID']);
+                break;
+            case 'url':
+                $headers = array_merge($headers, ['URL']);
+                break;
+        }
         $rows = [];
 
         $appCollection = $this->getCloudwaysAppCollectionFromCliInput();
 
         /** @var CloudwaysApp $cloudwaysApp */
         foreach ($appCollection as $cloudwaysApp) {
-            $rows[] = [
+            $row = [
                 'Group' => $cloudwaysApp->group,
                 'Type' => $cloudwaysApp->type,
                 'Short Code' => $cloudwaysApp->short_code,
                 'Name' => $cloudwaysApp->name,
                 'App ID' => $cloudwaysApp->id,
-                'Server' => $cloudwaysApp->server->name,
-                'Server ID' => $cloudwaysApp->server->id,
             ];
+            switch($columns) {
+                case 'server':
+                    $row = array_merge($row, [
+                        'Server' => $cloudwaysApp->server->name,
+                        'Server ID' => $cloudwaysApp->server->id,
+                    ]);
+                    break;
+                case 'url':
+                    $row = array_merge($row, [
+                        'URL' => $cloudwaysApp->url,
+                    ]);
+                    break;
+            }
+
+            $rows[] = $row;
         }
 
         $this->comment('** Cloudways Apps **');
