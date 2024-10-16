@@ -24,6 +24,7 @@ class LaravelDeploy extends Command
         {--s|short_codes= : Limit to a comma seperated list of App\Models\CloudApp short codes to run }
         {--i|ids= : Limit to a comma seperated list of App\Models\CloudApp IDs to run }
         {--b|branch= : git branch to pull from, defaults to what is in the DB }
+        {--d|discard=0 : Set composer config --global discard-changes true }
         {--c|cache=1 : Build the cache after steps, 1 or 0 }';
 
     /**
@@ -46,6 +47,7 @@ class LaravelDeploy extends Command
 
         $branch = $this->input->getOption('branch');
         $cache = (bool) $this->input->getOption('cache');
+        $discard = (bool) $this->input->getOption('discard');
 
         $appCollection = $this->getCloudwaysAppCollectionFromCliInput();
 
@@ -79,7 +81,7 @@ class LaravelDeploy extends Command
             $remoteSsh
                 ->setOutput($this->getOutput())
                 ->cdToApplication()
-                ->composerInstallNoDev()
+                ->composerInstallNoDev($discard)
                 ->laravelArtisanMigrate();
 
             CloudwaysDeployLaravelPrependRemoteSsh::dispatch($cloudwaysApp, $remoteSsh);

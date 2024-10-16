@@ -7,11 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [1.2.0] - 2024-10-16
 
 ### Added
 
 - Add config setting: `CW_DM_HTTP_TIMEOUT` to customize HTTP timeout to the Cloudways API
-
+- Add --d|discard option to the `cw:deploy:laravel` command, if 1 then it will set 
+`composer config --global discard-changes true`
 
 ## [1.1.0] - 2024-10-16
 
