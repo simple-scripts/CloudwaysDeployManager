@@ -184,7 +184,7 @@ class CloudwaysREST extends Cloudways
         return $ret;
     }
 
-    protected function startHttpRequest():Http|PendingRequest
+    protected function startHttpRequest(): Http|PendingRequest
     {
         // @see https://developers.cloudways.com/docs/#!/SSHKeysManagementApi#createSSHkey
         $token = $this->auth->getOAuthAccessToken();

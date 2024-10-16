@@ -36,7 +36,7 @@ class RemoteSSH
         return $this;
     }
 
-    public function composerInstallNoDev(bool $discard_changes=true): static
+    public function composerInstallNoDev(bool $discard_changes = true): static
     {
         if ($discard_changes) {
             $this->commands[] = 'composer config --global discard-changes true';
