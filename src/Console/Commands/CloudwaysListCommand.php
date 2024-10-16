@@ -36,7 +36,7 @@ class CloudwaysListCommand extends Command
         $columns = strtolower($this->option('columns'));
         $headers = ['Group', 'Type', 'Short Code', 'Name', 'App ID'];
 
-        switch($columns) {
+        switch ($columns) {
             case 'server':
                 $headers = array_merge($headers, ['Server', 'Server ID']);
                 break;
@@ -57,7 +57,7 @@ class CloudwaysListCommand extends Command
                 'Name' => $cloudwaysApp->name,
                 'App ID' => $cloudwaysApp->id,
             ];
-            switch($columns) {
+            switch ($columns) {
                 case 'server':
                     $row = array_merge($row, [
                         'Server' => $cloudwaysApp->server->name,
