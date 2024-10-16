@@ -99,7 +99,7 @@ to create them for every server application.
 - Now set the correct path values in the .env for your generated keys
 - Run the following command to push your generated keys to the cloudways servers in your DB:
 ```shell
-php artisan cloudways:ssh
+php artisan cw:manager:ssh
 ```
 If it is your first time to connect to a server via an SSH Key you will need to confirm the keys before you can run update
 commands. If you ran the `php artisan cw:manager:ssh` command it should have created the _ssh/confirm.sh file. You can run this
