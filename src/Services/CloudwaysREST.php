@@ -3,6 +3,7 @@
 namespace SimpleScripts\CloudDeployManager\Services;
 
 use Illuminate\Console\OutputStyle;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -15,10 +16,7 @@ class CloudwaysREST extends Cloudways
      */
     public function getOperationStatus(int $operation_id): array
     {
-        $token = $this->auth->getOAuthAccessToken();
-
-        return Http::cloudways()
-            ->withToken($token->value)
+        return $this->startHttpRequest()
             ->get(
                 '/operation/'.$operation_id,
             )
@@ -31,12 +29,8 @@ class CloudwaysREST extends Cloudways
      */
     public function resetAppFilePermissions(int $server, int $app)
     {
-        // @see https://developers.cloudways.com/docs/#!/AppManagementApi#resetFilePermissions
-        $token = $this->auth->getOAuthAccessToken();
-
         //'/server/manage/settings?server_id='.$server_id ,
-        return Http::cloudways()
-            ->withToken($token->value)
+        return $this->startHttpRequest()
             ->post(
                 // /v1/app/manage/reset_permissions
                 '/app/manage/reset_permissions',
@@ -54,16 +48,13 @@ class CloudwaysREST extends Cloudways
      */
     public function createAppCredentials(int $server, int $app, string $username, ?string $password = null)
     {
-        $token = $this->auth->getOAuthAccessToken();
-
         if (empty($password)) {
             $password = Str::password(18);
         }
 
         //dd($server, $app, $username, $password);
         // https://developers.cloudways.com/docs/#!/AppManagementApi#createAppCredentials
-        return Http::cloudways()
-            ->withToken($token->value)
+        return $this->startHttpRequest()
             ->post(
                 // //api/v1/app/creds
                 '/app/creds',
@@ -83,18 +74,9 @@ class CloudwaysREST extends Cloudways
      */
     public function createMySshKey(int $server, int $app_creds_id)
     {
-        // @see https://developers.cloudways.com/docs/#!/SSHKeysManagementApi#createSSHkey
-        $token = $this->auth->getOAuthAccessToken();
-
-        //'/server/manage/settings?server_id='.$server_id ,
-        // /** @var Http $httpClient */
-        //$httpClient = Http::cloudways();
-
         $public_key = config('cw-deploy-manager.ssh.public_key') ?? file_get_contents(config('cw-deploy-manager.ssh.public_key_path'));
 
-        //return Http::baseUrl(Str::replace('/v1', '/v2', config('cloudways.base_url')))
-        return Http::cloudways()
-            ->withToken($token->value)
+        return $this->startHttpRequest()
             ->post(
                 // /api/v1/ssh_key
                 // /api/v2/ssh_key
@@ -200,5 +182,15 @@ class CloudwaysREST extends Cloudways
             ->json();
 
         return $ret;
+    }
+
+    protected function startHttpRequest():Http|PendingRequest
+    {
+        // @see https://developers.cloudways.com/docs/#!/SSHKeysManagementApi#createSSHkey
+        $token = $this->auth->getOAuthAccessToken();
+
+        return Http::cloudways()
+            ->withOptions(['timeout' => config('cw-deploy-manager.timeout')])
+            ->withToken($token->value);
     }
 }

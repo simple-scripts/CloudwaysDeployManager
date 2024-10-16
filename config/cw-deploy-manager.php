@@ -28,4 +28,5 @@ return [
         'use_plink' => env('CW_DM_SSH_USE_PLINK', false),
         'use_temp' => env('CW_DM_SSH_USE_TEMP', false),
     ],
+    'timeout' => env('CW_DM_HTTP_TIMEOUT', 30),
 ];
