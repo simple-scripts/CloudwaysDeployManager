@@ -70,11 +70,11 @@ class CloudwaysUploadSsh extends Command
 
         /** @var CloudwaysApp $cloudwaysApp */
         foreach ($appCollection as $cloudwaysApp) {
-            $this->info('Starting SSH Key upload/create for server: '.$cloudwaysApp->short_code.' - '.$cloudwaysApp->id.' - '.$cloudwaysApp->server->cloudways_server_name);
+            $this->info('Starting SSH Key upload/create for server: '.$cloudwaysApp->short_code.' - '.$cloudwaysApp->id.' - '.$cloudwaysApp->server->name);
 
             $cloudwaysRest = CloudwaysAuth::getCloudwaysREST();
 
-            if (empty($cloudwaysApp->cloudways_app_cred_id)) {
+            if (empty($cloudwaysApp->cred_id)) {
                 $response = $cloudwaysRest->createAppCredentials(
                     $cloudwaysApp->cloudways_server_id,
                     $cloudwaysApp->id,
@@ -88,26 +88,26 @@ class CloudwaysUploadSsh extends Command
                     //  "app_cred_id" => 1012039
                     //]
                     $cloudwaysApp->update([
-                        'cloudways_app_cred_id' => $response['app_cred_id'],
+                        'cred_id' => $response['app_cred_id'],
                     ]);
                     $cloudwaysApp->refresh();
                     $this->info('New SSH auth account created ('.config('cw-deploy-manager.app_credentials_username').
-                        ') for server: '.$cloudwaysApp->id.' - '.$cloudwaysApp->server->cloudways_server_name.' for app: '.
-                        $cloudwaysApp->id.' - '.$cloudwaysApp->cloudways_app_name
+                        ') for server: '.$cloudwaysApp->id.' - '.$cloudwaysApp->server->name.' for app: '.
+                        $cloudwaysApp->id.' - '.$cloudwaysApp->name
                     );
 
                 }
             }
 
-            if (empty($cloudwaysApp->server->cloudways_server_ssh_key_id) || $new) {
-                $response = $cloudwaysRest->createMySshKey($cloudwaysApp->cloudways_server_id, $cloudwaysApp->cloudways_app_cred_id);
+            if (empty($cloudwaysApp->server->ssh_key_id) || $new) {
+                $response = $cloudwaysRest->createMySshKey($cloudwaysApp->cloudways_server_id, $cloudwaysApp->cred_id);
 
-                $cloudwaysApp->update([
-                    'cloudways_server_ssh_key_id' => $response['id'],
+                $cloudwaysApp->server->update([
+                    'ssh_key_id' => $response['id'],
                 ]);
                 $this->info('SSH key created for user '.config('cw-deploy-manager.app_credentials_username').
-                    ' on server: '.$cloudwaysApp->id.' - '.$cloudwaysApp->server->cloudways_server_name.' for app: '.
-                    $cloudwaysApp->id.' - '.$cloudwaysApp->cloudways_app_name
+                    ' on server: '.$cloudwaysApp->id.' - '.$cloudwaysApp->server->name.' for app: '.
+                    $cloudwaysApp->id.' - '.$cloudwaysApp->name
                 );
             }
 
