@@ -48,7 +48,7 @@ class CloudDeployManagerServiceProvider extends PackageServiceProvider
     /**
      * Generate a migration name.
      */
-    public static function generateMigrationName(string $migrationFileName, Carbon $now): string
+    protected function generateMigrationName(string $migrationFileName, Carbon $now): string
     {
         // Keep the assigned date
         $pattern = '^[0-9]{4}_[0-9]{2}_[0-9]{2}(.)+'; //(\.php$)
