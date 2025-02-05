@@ -45,7 +45,7 @@ class CloudwaysComposerAuthCommand extends Command
 
             return;
         }
-        //dd($composer_auth);
+        // dd($composer_auth);
         /** @var CloudwaysApp $app */
         foreach ($appCollection as $app) {
             $this->info('--------'.PHP_EOL.'Starting ~/.composer/auth.json upload: '.$app->short_code.' - '.$app->id.' - '.
@@ -61,7 +61,7 @@ class CloudwaysComposerAuthCommand extends Command
             if (is_string($process_or_string)) {
                 $this->info($process_or_string);
             } elseif ($process_or_string instanceof Process) {
-                //dd($process);
+                // dd($process);
                 if ($process_or_string->isSuccessful()) {
                     $this->info('remote upload file has ran');
                 } else {

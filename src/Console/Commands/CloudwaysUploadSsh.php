@@ -82,11 +82,11 @@ class CloudwaysUploadSsh extends Command
                 );
 
                 if ($response['status'] && $response['app_cred_id']) {
-                    //Starting SSH Key upload/cre
-                    //array:2 [ // app\Console\Co
+                    // Starting SSH Key upload/cre
+                    // array:2 [ // app\Console\Co
                     //  "status" => true
                     //  "app_cred_id" => 1012039
-                    //]
+                    // ]
                     $cloudwaysApp->update([
                         'cred_id' => $response['app_cred_id'],
                     ]);

@@ -51,7 +51,7 @@ class CloudDeployManagerServiceProvider extends PackageServiceProvider
     protected function generateMigrationName(string $migrationFileName, Carbon $now): string
     {
         // Keep the assigned date
-        $pattern = '^[0-9]{4}_[0-9]{2}_[0-9]{2}(.)+'; //(\.php$)
+        $pattern = '^[0-9]{4}_[0-9]{2}_[0-9]{2}(.)+'; // (\.php$)
         if (preg_match('/'.$pattern.'/', $migrationFileName)) {
             return database_path('migrations/'.$migrationFileName.'.php');
         }

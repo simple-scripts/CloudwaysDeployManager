@@ -103,7 +103,7 @@ class RemoteSSH
 
     public function uploadComposerAuthJson(string $sourcePath, string $destinationPath = '~/.composer/auth.json')
     {
-        $ssh = $this->loadSsh(); //true);
+        $ssh = $this->loadSsh(); // true);
 
         return $ssh->uploadLocalFile($sourcePath, $destinationPath);
     }
@@ -118,7 +118,7 @@ class RemoteSSH
         $key = 'cw-deploy-manager.ssh.private_key_path';
         if (! $force_raw_key && $ssh->isPlink()) {
             // didn't get the key to work with scp
-            //$key = 'cw-deploy-manager.ssh.private_ppk_key_path';
+            // $key = 'cw-deploy-manager.ssh.private_ppk_key_path';
         }
         $ssh
             ->setCloudwaysApp($this->cloudwaysApp)

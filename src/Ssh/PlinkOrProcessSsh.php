@@ -29,7 +29,7 @@ class PlinkOrProcessSsh extends Ssh
         if ($include_batch) {
             $this->extraOptions[] = '-batch';
         }
-        //dd($this->extraOptions);
+        // dd($this->extraOptions);
 
         $extraOptions = implode(' ', array_values($this->extraOptions));
 

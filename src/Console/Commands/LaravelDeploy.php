@@ -103,7 +103,7 @@ class LaravelDeploy extends Command
         if (is_string($process_or_string)) {
             $this->info($process_or_string);
         } elseif ($process_or_string instanceof Process) {
-            //dd($process);
+            // dd($process);
             if ($process_or_string->isSuccessful()) {
                 $this->info('remote ssh has ran');
             } else {
