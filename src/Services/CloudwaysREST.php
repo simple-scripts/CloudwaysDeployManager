@@ -14,7 +14,7 @@ class CloudwaysREST extends Cloudways
     /**
      * @throws \Illuminate\Http\Client\RequestException
      */
-    public function getOperationStatus(int $operation_id): array
+    public function getOperationStatus(int|string $operation_id): array
     {
         return $this->startHttpRequest()
             ->get(
@@ -92,6 +92,31 @@ class CloudwaysREST extends Cloudways
             ->json();
     }
 
+    public function startGitPullLocal(
+        int $server,
+        int $app,
+        string $git,
+        string $branch,
+        string $path = ''
+    ): int|string {
+        $token = $this->auth->getOAuthAccessToken();
+
+        return Http::cloudways()
+            ->withToken($token->value)
+            ->post(
+                '/git/pull',
+                [
+                    'server_id' => $server,
+                    'app_id' => $app,
+                    'git_url' => $git,
+                    'branch_name' => $branch,
+                    'deploy_path' => $path
+                ]
+            )
+            ->throw()
+            ->json()['operation_id'];
+    }
+
     /**
      * @throws RequestException
      */
@@ -122,7 +147,7 @@ class CloudwaysREST extends Cloudways
     /**
      * @throws RequestException
      */
-    public function waitForOperationStatusCompletion(int $operation_id, ?OutputStyle $output): void
+    public function waitForOperationStatusCompletion(int|string $operation_id, ?OutputStyle $output): void
     {
         $json = $this->getOperationStatus($operation_id);
 

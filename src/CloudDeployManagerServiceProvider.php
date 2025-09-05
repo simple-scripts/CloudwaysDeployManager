@@ -3,6 +3,7 @@
 namespace SimpleScripts\CloudDeployManager;
 
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use SimpleScripts\CloudDeployManager\Console\Commands\CloudwaysComposerAuthCommand;
 use SimpleScripts\CloudDeployManager\Console\Commands\CloudwaysExport;
 use SimpleScripts\CloudDeployManager\Console\Commands\CloudwaysImport;
@@ -48,7 +49,7 @@ class CloudDeployManagerServiceProvider extends PackageServiceProvider
     /**
      * Generate a migration name.
      */
-    protected function generateMigrationName(string $migrationFileName, Carbon $now): string
+    public function generateMigrationName(string $migrationFileName, Carbon|CarbonImmutable $now): string
     {
         // Keep the assigned date
         $pattern = '^[0-9]{4}_[0-9]{2}_[0-9]{2}(.)+'; // (\.php$)

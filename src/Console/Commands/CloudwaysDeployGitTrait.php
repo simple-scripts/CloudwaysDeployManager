@@ -112,7 +112,7 @@ trait CloudwaysDeployGitTrait
         $cloudwaysRest = new CloudwaysREST($cloudwaysAuth);
         // @TODO cache the token for 30 minutes
 
-        $operation_id = $cloudwaysRest->startGitPull(
+        $operation_id = $cloudwaysRest->startGitPullLocal(
             $cloudwaysApp->cloudways_server_id,
             $cloudwaysApp->id,
             $cloudwaysApp->git_url,
