@@ -110,7 +110,7 @@ class CloudwaysREST extends Cloudways
                     'app_id' => $app,
                     'git_url' => $git,
                     'branch_name' => $branch,
-                    'deploy_path' => $path
+                    'deploy_path' => $path,
                 ]
             )
             ->throw()
