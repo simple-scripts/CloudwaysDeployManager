@@ -132,7 +132,7 @@ class CloudwaysREST extends Cloudways
         return $this->serverAction($server, 'stop');
     }
 
-    protected function serverAction(int $server, string $action='restart'): int|string
+    protected function serverAction(int $server, string $action = 'restart'): int|string
     {
         $token = $this->auth->getOAuthAccessToken();
 
@@ -141,7 +141,7 @@ class CloudwaysREST extends Cloudways
             ->post(
                 '/server/'.$action,
                 [
-                    'server_id' => $server
+                    'server_id' => $server,
                 ]
             )
             ->throw()
@@ -178,7 +178,7 @@ class CloudwaysREST extends Cloudways
     /**
      * @throws RequestException
      */
-    public function waitForOperationStatusCompletion(int|string $operation_id, ?OutputStyle $output, int $minRecallTime=1): void
+    public function waitForOperationStatusCompletion(int|string $operation_id, ?OutputStyle $output, int $minRecallTime = 1): void
     {
         $json = $this->getOperationStatus($operation_id);
 

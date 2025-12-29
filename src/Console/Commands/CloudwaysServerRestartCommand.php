@@ -4,12 +4,8 @@ namespace SimpleScripts\CloudDeployManager\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Http\Client\RequestException;
-use Illuminate\Support\Collection;
-use SimpleScripts\CloudDeployManager\Events\CloudwaysDeployLaravelPrependRemoteSsh;
 use SimpleScripts\CloudDeployManager\Models\CloudwaysApp;
 use SimpleScripts\CloudDeployManager\Services\CloudwaysAuth;
-use SimpleScripts\CloudDeployManager\Services\RemoteSSH;
-use Symfony\Component\Process\Process;
 
 class CloudwaysServerRestartCommand extends Command
 {
@@ -55,7 +51,7 @@ class CloudwaysServerRestartCommand extends Command
         foreach ($groupedByServer as $serverId => $appsForServer) {
             /** @var CloudwaysApp $firstApp */
             $firstApp = $appsForServer->first();
-            $this->info('Server ID: ' . $serverId . ' - ' . $firstApp->server->name);
+            $this->info('Server ID: '.$serverId.' - '.$firstApp->server->name);
             $this->info('From selected apps:');
             /** @var CloudwaysApp $cloudwaysApp */
             foreach ($appsForServer as $cloudwaysApp) {
@@ -66,8 +62,9 @@ class CloudwaysServerRestartCommand extends Command
                 'restart' => $cloudwaysRest->serverRestart($serverId),
                 'start' => $cloudwaysRest->serverStart($serverId),
                 'stop' => $cloudwaysRest->serverStop($serverId),
-                default => function() use ($action) {
+                default => function () use ($action) {
                     $this->info('Unknown action: '.$action);
+
                     return false;
                 },
             };
