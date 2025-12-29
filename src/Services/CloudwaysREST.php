@@ -117,6 +117,37 @@ class CloudwaysREST extends Cloudways
             ->json()['operation_id'];
     }
 
+    public function serverRestart(int $server): int|string
+    {
+        return $this->serverAction($server, 'restart');
+    }
+
+    public function serverStart(int $server): int|string
+    {
+        return $this->serverAction($server, 'start');
+    }
+
+    public function serverStop(int $server): int|string
+    {
+        return $this->serverAction($server, 'stop');
+    }
+
+    protected function serverAction(int $server, string $action='restart'): int|string
+    {
+        $token = $this->auth->getOAuthAccessToken();
+
+        return Http::cloudways()
+            ->withToken($token->value)
+            ->post(
+                '/server/'.$action,
+                [
+                    'server_id' => $server
+                ]
+            )
+            ->throw()
+            ->json()['operation_id'];
+    }
+
     /**
      * @throws RequestException
      */
@@ -147,7 +178,7 @@ class CloudwaysREST extends Cloudways
     /**
      * @throws RequestException
      */
-    public function waitForOperationStatusCompletion(int|string $operation_id, ?OutputStyle $output): void
+    public function waitForOperationStatusCompletion(int|string $operation_id, ?OutputStyle $output, int $minRecallTime=1): void
     {
         $json = $this->getOperationStatus($operation_id);
 
@@ -163,12 +194,13 @@ class CloudwaysREST extends Cloudways
 
             } else {
                 $time = $status['estimated_time_remaining'] > 0 ? $status['estimated_time_remaining'] : 10;
+                $wait = max($time, $minRecallTime);
                 $output->writeln('Operation ID: '.$status['id'].' for '.$status['type'].
-                    ' has estimated time remaining of: '.$time.' seconds. ');
+                    ' has estimated time remaining of: '.$time.' seconds. Waiting for: '.$wait.' seconds to run next check.');
 
                 // print_r($status);exit();
-                sleep($time);
-                $this->waitForOperationStatusCompletion($operation_id, $output);
+                sleep($wait);
+                $this->waitForOperationStatusCompletion($operation_id, $output, $minRecallTime);
             }
         } else {
             // dd($json);

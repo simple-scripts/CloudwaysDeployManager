@@ -8,6 +8,7 @@ use SimpleScripts\CloudDeployManager\Console\Commands\CloudwaysComposerAuthComma
 use SimpleScripts\CloudDeployManager\Console\Commands\CloudwaysExport;
 use SimpleScripts\CloudDeployManager\Console\Commands\CloudwaysImport;
 use SimpleScripts\CloudDeployManager\Console\Commands\CloudwaysListCommand;
+use SimpleScripts\CloudDeployManager\Console\Commands\CloudwaysServerRestartCommand;
 use SimpleScripts\CloudDeployManager\Console\Commands\CloudwaysUploadSsh;
 use SimpleScripts\CloudDeployManager\Console\Commands\LaravelDeploy;
 use Spatie\LaravelPackageTools\Package;
@@ -25,6 +26,7 @@ class CloudDeployManagerServiceProvider extends PackageServiceProvider
         CloudwaysExport::class,
         CloudwaysImport::class,
         CloudwaysListCommand::class,
+        CloudwaysServerRestartCommand::class,
         CloudwaysUploadSsh::class,
         LaravelDeploy::class,
     ];
